@@ -4,11 +4,22 @@
     "version": "1.0",
     "description": "To categorise email according to department",
     "host_permissions":["https://mail.google.com/"],
-    "permissions": ["scripting"],
+    "permissions": [
+    "scripting",
+    "identity"],
+    "background":{
+        "service_worker": "background.js"
+    },
     "content_scripts":[
         {
             "matches": ["https://mail.google.com/*"],
             "js": ["content.js"]
         }
-    ]
+    ],
+    "oauth2": {
+        "client_id": "83775025472-j14jboje62ul9qcvhfoevagp98a28dtr.apps.googleusercontent.com",
+        "scopes": [
+          "https://www.googleapis.com/auth/gmail.readonly"
+        ]
+      }
 }

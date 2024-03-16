@@ -4,10 +4,6 @@ function categorise(){
     emails.forEach(email=>{
         const subject = email.querySelector('.bog span').textContent;
         console.log(subject)
-        const emailBodyElement = document.querySelector('div.adP');
-        const emailId = emailBodyElement ? emailBodyElement.getAttribute('data-message-id') : null;
-
-        console.log(emailId)
 
     
     let category;
@@ -28,6 +24,9 @@ function categorise(){
     email.querySelector('.y6 span').appendChild(categoryLabel);
     })
 }
+
+
+
 
 document.addEventListener('DOMContentLoaded', (e)=>{
     console.log('here1')
