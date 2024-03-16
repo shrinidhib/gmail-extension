@@ -1,0 +1,14 @@
+{
+    "manifest_version": 3,
+    "name": "Gmail Extension",
+    "version": "1.0",
+    "description": "To categorise email according to department",
+    "host_permissions":["https://mail.google.com/"],
+    "permissions": ["scripting"],
+    "content_scripts":[
+        {
+            "matches": ["https://mail.google.com/*"],
+            "js": ["content.js"]
+        }
+    ]
+}
