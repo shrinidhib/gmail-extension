@@ -42,18 +42,29 @@ function fetchEmailBodies(emailIds, token) {
         })
         .then(response => response.json())
         .then(data => {
-            console.log("Data in meail body: ", data)
-            let binData=data.payload.parts[0].body.data
-            binData.replace('-','+').replace('_','/')
-            // const emailBody = Buffer.alloc(
-            //     binData.data.length,
-            //     binData.data,
-            //     "base64"
-            //   ).toString();
-            binData=decodeURIComponent(binData)
-            console.log("decoded uri: ", binData)
-            const emailBody = atob(binData); // Decode base64 encoded email body
-            console.log("email body: ", emailBody)
+            let binData;
+            if (!data.payload.parts){
+                binData=data.payload.body.data
+            
+            }
+            else{
+           
+                binData=data.payload.parts[0].body.data
+       
+            }
+            
+            if(binData){
+                const emailBody=atob(binData.replace(/-/g, '+').replace(/_/g, '/') ); 
+                const cleanedEmailBody = emailBody.replace(/\s{2,}/g, ' ').trim();
+                const bodyWithoutLinks = cleanedEmailBody.replace(/https?:\/\/[^\s]+/g, '')
+                const plaintextBody = bodyWithoutLinks.replace(/<style[^>]*>[\s\S]*?<\/style>|<[^>]+>/gi, '');
+                const decodedBody = plaintextBody.replace(/&nbsp;|&zwnj;|&amp;/g, '');
+                const regex = /[^\x00-\x7F]/g;
+                let cleanedString = decodedBody.replace(regex, "");
+                console.log("email body: ", cleanedString)
+            }
+           
+            
         })
         .catch(error => {
             console.error('Error fetching email body:', error);
